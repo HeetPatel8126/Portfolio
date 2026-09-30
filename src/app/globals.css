@@ -1,26 +1,121 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-bg: #030405;
+  --color-accent: #47f0d6;
+  --color-amber: #ffb454;
+  --color-text: #e7e9ec;
+  --color-text-dim: #7b828d;
+  --font-mono: var(--font-mono, 'JetBrains Mono', 'Courier New', monospace);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Base Reset ─── */
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(71, 240, 214, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 240, 214, 0.3);
+}
+
+/* ─── Animations ─── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes crt-flicker {
+  0%, 100% { opacity: 0.01; }
+  50% { opacity: 0.03; }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(3px, -2px); }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(2px, -1px); }
+  100% { transform: translate(0); }
+}
+
+.animate-fade-in {
+  opacity: 0;
+  animation: fade-in 0.3s ease forwards;
+}
+
+.animate-crt-flicker {
+  animation: crt-flicker 4s ease-in-out infinite;
+}
+
+.glitch-text {
+  animation: glitch 0.3s ease-in-out 3;
+  font-weight: bold;
+}
+
+/* ─── Terminal link styles ─── */
+#term-output a {
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+#term-output a:hover {
+  text-decoration: underline;
+}
+
+/* ─── Dim class for terminal output ─── */
+.dim {
+  color: var(--color-text-dim);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(71, 240, 214, 0.2);
+  color: #ffffff;
+}
+
+/* ─── Print Media Styles for Resume ─── */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    overflow: visible !important;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  main > *:not(.fixed) {
+    display: none !important;
+  }
+  .fixed:not(:has(.select-text)) {
+    display: none !important;
+  }
+  .bg-\[\#0c0e14\], .bg-\[\#080a0f\] {
+    background: #ffffff !important;
+    color: #111827 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .text-white, .text-gray-200 {
+    color: #111827 !important;
+  }
+  .text-text-dim {
+    color: #4b5563 !important;
+  }
+  .text-accent {
+    color: #0d9488 !important;
+  }
 }
